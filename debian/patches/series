@@ -1,0 +1,11 @@
+# quilt series file
+
+fix-spelling-errors.patch
+fix-hyphen-vs-minus-sign.patch
+fix-qtel-desktop-file.patch
+fix-home-missing-in-environment.patch
+no-sonames-on-modules.patch
+fix-install-locations.patch
+enable-static-libs.patch
+use-default-compile-flags.patch
+enable-verbose-output.patch

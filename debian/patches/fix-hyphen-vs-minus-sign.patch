@@ -1,0 +1,84 @@
+Description: Escape minus in man pages
+Author: Felix Lechner <felix.lechner@gmail.com>
+Forwarded: no
+Last-Update: 2014-09-23
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/src/doc/man/ModulePropagationMonitor.conf.5
++++ b/src/doc/man/ModulePropagationMonitor.conf.5
+@@ -78,11 +78,11 @@
+ propagation monitor spool directory. To fix this, run the following commands:
+ .PP
+ .RS 4
+-semanage fcontext -a -t user_home_t \\
++semanage fcontext \-a \-t user_home_t \\
+ .RS 0
+          "/var/spool/svxlink/propagation_monitor(/.*)?"
+ .RS 0
+-restorecon -r /var/spool/svxlink/propagation_monitor
++restorecon \-r /var/spool/svxlink/propagation_monitor
+ .
+ .SH FILES
+ .
+--- a/src/doc/man/svxlink.conf.5
++++ b/src/doc/man/svxlink.conf.5
+@@ -201,7 +201,7 @@
+ .TP
+ .B RGR_SOUND_DELAY
+ The number of milliseconds to wait after the squelch has been closed before a roger beep
+-is played. The beep can be disabled by specifying a value of -1 or commenting out this
++is played. The beep can be disabled by specifying a value of \-1 or commenting out this
+ line. Often it is best to use the SQL_HANGTIME receiver configuration variable to specify
+ a delay instead of specifying a delay here. This configuration variable should then be set
+ to 0. 
+@@ -250,7 +250,7 @@
+ .TP
+ .B FX_GAIN_LOW
+ The gain (dB) to use for audio effects and announcements when there is other traffic.
+-This gain is normally set to something like -12dB so that announcements and audio effects
++This gain is normally set to something like \-12dB so that announcements and audio effects
+ are attenuated when there is other traffic present.
+ .TP
+ .B QSO_RECORDER
+@@ -512,9 +512,9 @@
+ 
+ The encoder command will be run under a shell so normal shell operators like
+ redirects and pipes may be used. The shell specified in the SHELL environment
+-variable will be used and if not set, /bin/sh will be used. The "-c" command
++variable will be used and if not set, /bin/sh will be used. The "\-c" command
+ line option will be added so the complete command will look something like:
+-$SHELL -c "$ENCODER_CMD". A number of %-codes can be included in the command.
++$SHELL \-c "$ENCODER_CMD". A number of %-codes can be included in the command.
+ They have the following meaning:
+ .RS
+ .IP \(bu 4
+@@ -534,9 +534,9 @@
+ Note that SvxLink will never remove the original recording so that have to be
+ done in the encoder command. Here are a couple of examples:
+ 
+- ENCODER_CMD=/usr/bin/oggenc -Q \\"%f\\" && rm \\"%f\\"
++ ENCODER_CMD=/usr/bin/oggenc \-Q \\"%f\\" && rm \\"%f\\"
+ .BR
+- ENCODER_CMD=/usr/bin/lame --quiet \\"%f\\" \\"%d/%b.mp3\\" && rm \\"%f\\"
++ ENCODER_CMD=/usr/bin/lame \-\-quiet \\"%f\\" \\"%d/%b.mp3\\" && rm \\"%f\\"
+ .BR
+  ENCODER_CMD=/usr/bin/speexenc \\"%f\\" \\"%d/%b.spx\\" 2>/dev/null && rm \\"%f\\"
+ .BR
+@@ -1415,7 +1415,7 @@
+ .TP
+ .B DTMF_TONE_AMP
+ The amplitude, in dB, of DTMF digits transmitted on this transmitter. Zero
+-dB is the maximum amplitude. -18dB is the default.
++dB is the maximum amplitude. \-18dB is the default.
+ .TP
+ .B TONE_SIGLEV_MAP
+ It is possible to transmit one of ten tones along with the normal transmission
+@@ -1689,7 +1689,7 @@
+ .TP
+ .B ANTENNA_DIR
+ Main beam direction of the antenna in degrees. If an omni direction antenna is
+-used, specify -1 as the direction.
++used, specify \-1 as the direction.
+ 
+ Example:
+ .br

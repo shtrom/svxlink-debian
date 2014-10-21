@@ -1,0 +1,73 @@
+Description: Fix spelling errors
+Author: Felix Lechner <felix.lechner@gmail.com>
+Forwarded: no
+Last-Update: 2014-09-23
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/src/doc/man/svxlink.conf.5
++++ b/src/doc/man/svxlink.conf.5
+@@ -121,7 +121,7 @@
+ Supported sampling rates are: 8000, 16000 and 48000.
+ .TP
+ .B LOCATION_INFO
+-Enter the section name that contains information required for transfering
++Enter the section name that contains information required for transferring
+ positioning data to location servers. Setting this item makes the system
+ visible on the EchoLink link status page and the APRS network.
+ .TP
+@@ -470,7 +470,7 @@
+ Let's say that MAX_TIME is set to 3600 seconds (one hour). If we set SOFT_TIME
+ to 300 seconds (five minutes) the QSO recorder try to close the file on a
+ squelch close somewhere between 55 and 60 minutes. In this way we may avoid
+-getting transmissions splitted between files. Default: 0 (no limit)
++getting transmissions split up between files. Default: 0 (no limit)
+ .TP
+ .B MAX_DIRSIZE
+ Specify the maximum total size in megabytes of the files in the recording
+@@ -1202,7 +1202,7 @@
+ challenge-response procedure will be used for authentication.
+ .TP
+ .B CODEC
+-The audio codec to use when transfering audio from this remote receiver.
++The audio codec to use when transferring audio from this remote receiver.
+ Available codecs are: RAW (512kbps), S16 (256kbps), GSM (13.2kbps), SPEEX
+ (8-25kbps), OPUS (8-64kbps). These are raw bitrate values. There will be some
+ overhead added to this so the real bitrates on the wire are a little bit
+@@ -1244,7 +1244,7 @@
+ .TP
+ .B SPEEX_ENC_ABR
+ Speex encoder setting. The average bitrate encoding will try to keep a target
+-bitrate by continously adjusting the quality. This configuration variable
++bitrate by continuously adjusting the quality. This configuration variable
+ specify the target bitrate and enable ABR. It also need to have VBR enabled so
+ don't force it to off.
+ .TP
+@@ -1475,7 +1475,7 @@
+ challenge-response procedure will be used for authentication.
+ .TP
+ .B CODEC
+-The audio codec to use when transfering audio to this remote transmitter.
++The audio codec to use when transferring audio to this remote transmitter.
+ Available codecs are: RAW (512kbps), S16 (256kbps), GSM (13.2kbps), SPEEX
+ (8-25kbps), OPUS (8-64kbps). These are raw bitrate values. There will be some
+ overhead added to this so the real bitrates on the wire are a little bit
+@@ -1519,7 +1519,7 @@
+ .TP
+ .B SPEEX_ENC_ABR
+ Speex encoder setting. The average bitrate encoding will try to keep a target
+-bitrate by continously adjusting the quality. This configuration variable
++bitrate by continuously adjusting the quality. This configuration variable
+ specify the target bitrate and enable ABR. It also need to have VBR enabled so
+ don't force it to off.
+ .TP
+--- a/src/qtel/MainWindow.cpp
++++ b/src/qtel/MainWindow.cpp
+@@ -533,7 +533,7 @@
+   if (disp == 0)
+   {
+     //FIXME: Better error handling!
+-    fprintf(stderr, "Could not initalize network listen ports\n");
++    fprintf(stderr, "Could not initialize network listen ports\n");
+     exit(1);
+   }
+   disp->incomingConnection.connect(

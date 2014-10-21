@@ -1,0 +1,5 @@
+svxlink (14.08-1) unstable; urgency=low
+
+  * Initial release (Closes: #733060)
+
+ -- Felix Lechner <felix.lechner@gmail.com>  Tue, 21 Oct 2014 08:52:08 -0700

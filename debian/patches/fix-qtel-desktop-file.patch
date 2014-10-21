@@ -1,0 +1,20 @@
+Description: Modify qtel's desktop file to avoid pedantic lintian warnings
+Author: Felix Lechner <felix.lechner@gmail.com>
+Forwarded: no
+Last-Update: 2014-09-23
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/src/qtel/qtel.desktop
++++ b/src/qtel/qtel.desktop
+@@ -1,10 +1,10 @@
+ [Desktop Entry]
+-Encoding=UTF-8
+ Name=Qtel
+ GenericName=EchoLink Client
+ Exec=/usr/bin/qtel
+ Terminal=false
+ Categories=Application;HamRadio;Qt;Network;
++Keywords=radio;ham;ptt;
+ Icon=/usr/share/icons/link.xpm
+ Comment=The Qt EchoLink Client
+ Type=Application

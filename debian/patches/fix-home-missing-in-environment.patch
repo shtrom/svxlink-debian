@@ -1,0 +1,62 @@
+Description: Fix errors when $HOME is not set in environment
+ 'svxlink' exits with an error when the $HOME variable is not set
+ in the environment. This patch changes the existing behavior in that
+ '.' is no longer checked as an alternative. For consistency, that
+ behavior was also coded into 'remotetrx'.
+Author: Felix Lechner <felix.lechner@gmail.com>
+Forwarded: no
+Last-Update: 2014-09-18
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/src/svxlink/modules/tcl_voice_mail/ModuleTclVoiceMail.tcl.in
++++ b/src/svxlink/modules/tcl_voice_mail/ModuleTclVoiceMail.tcl.in
+@@ -48,7 +48,7 @@
+ # Configuration file names
+ #
+ set cfg_etc "@SVX_SYSCONF_INSTALL_DIR@/TclVoiceMail.conf";
+-set cfg_home "$env(HOME)/.svxlink/TclVoiceMail.conf";
++set cfg_relative_home ".svxlink/TclVoiceMail.conf";
+ 
+ 
+ #
+@@ -85,12 +85,12 @@
+ #
+ # Read configuration file
+ #
+-if [file exists $cfg_home] {
+-  source $cfg_home;
++if {[info exists env(HOME)] && [file exists env(HOME)/$cfg_relative_home]} {
++  source env(HOME)/$cfg_relative_home;
+ } elseif [file exists $cfg_etc] {
+   source $cfg_etc;
+ } else {
+-  printInfo "*** ERROR: Could not find a configuration file in module \"$module_name\". Tried \"$cfg_home\" and \"$cfg_etc\"";
++  printInfo "*** ERROR: Could not find a configuration file in module \"$module_name\". Tried \$HOME/\"$cfg_relative_home\" and \"$cfg_etc\"";
+   exit 1;
+ }
+ 
+--- a/src/svxlink/remotetrx/remotetrx.cpp
++++ b/src/svxlink/remotetrx/remotetrx.cpp
+@@ -360,10 +360,6 @@
+   }
+ 
+   const char *home_dir = getenv("HOME");
+-  if (home_dir == NULL)
+-  {
+-    home_dir = ".";
+-  }
+   
+   tstamp_format = "%c";
+ 
+@@ -381,9 +377,8 @@
+   }
+   else
+   {
+-    cfg_filename = string(home_dir);
+-    cfg_filename += "/.svxlink/remotetrx.conf";
+-    if (!cfg.open(cfg_filename))
++    if (home_dir != NULL &&
++	!cfg.open(cfg_filename = string(home_dir) + "/.svxlink/remotetrx.conf"))
+     {
+       cfg_filename = SVX_SYSCONF_INSTALL_DIR "/remotetrx.conf";
+       if (!cfg.open(cfg_filename))

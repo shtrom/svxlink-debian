@@ -1,0 +1,5 @@
+version=3
+
+# Svxlink on GitHub
+opts=filenamemangle=s/.+\/v?(\d\S*)\.tar\.gz/svxlink-$1\.tar\.gz/ \
+  https://github.com/sm0svx/svxlink/releases .*/(\d+(?:\.\d+)+)\.tar\.gz
