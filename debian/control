@@ -8,8 +8,8 @@ Build-Depends: debhelper (>= 9), quilt, cmake, doxygen,
  libqt4-dev, tcl-dev, tk-dev
 Standards-Version: 3.9.6
 Homepage: http://www.svxlink.org
-Vcs-Browser: https://github.com/sm0svx/svxlink
-Vcs-Git: https://github.com/sm0svx/svxlink.git
+Vcs-Browser: https://github.com/lechner/svxlink
+Vcs-Git: https://github.com/lechner/svxlink.git
 
 Package: svxlink-server
 Architecture: any
