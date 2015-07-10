@@ -1,3 +1,9 @@
+Description: Use triggered() instead of deprecated Qt3 signal activated()
+Author: Felix Lechner <felix.lechner@gmail.com>
+Forwarded: yes
+Last-Update: 2015-07-10
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/src/qtel/MainWindow.cpp
 +++ b/src/qtel/MainWindow.cpp
 @@ -166,11 +166,11 @@ MainWindow::MainWindow(void)
@@ -15,7 +21,7 @@
        	  this, SLOT(connectionConnectToIpActionActivated()));
    connect(addSelectedToBookmarksAction, SIGNAL(triggered()),
  	  this, SLOT(addSelectedToBookmarks()));
-@@ -178,16 +178,16 @@ MainWindow::MainWindow(void)
+@@ -178,9 +178,9 @@ MainWindow::MainWindow(void)
  	  this, SLOT(removeSelectedFromBookmarks()));
    connect(addNamedStationToBookmarksAction, SIGNAL(triggered()),
  	  this, SLOT(addNamedStationToBookmarks()));
@@ -27,14 +33,6 @@
        	  this, SLOT(helpAbout()));
  
    connect(station_view_selector, SIGNAL(currentItemChanged(QListWidgetItem*,
- 						           QListWidgetItem*)),
- 	  this, SLOT(stationViewSelectorCurrentItemChanged(QListWidgetItem*,
- 						           QListWidgetItem*)));
--  connect(station_view, SIGNAL(activated(const QModelIndex&)),
-+  connect(station_view, SIGNAL(triggered(const QModelIndex&)),
- 	  this, SLOT(stationViewDoubleClicked(const QModelIndex&)));
-   connect(incoming_con_view, SIGNAL(itemSelectionChanged()),
-       	  this, SLOT(incomingSelectionChanged()));
 --- a/src/qtel/MainWindowBase.ui
 +++ b/src/qtel/MainWindowBase.ui
 @@ -465,7 +465,7 @@
