@@ -1,0 +1,40 @@
+--- a/src/qtel/MainWindow.cpp
++++ b/src/qtel/MainWindow.cpp
+@@ -166,11 +166,11 @@ MainWindow::MainWindow(void)
+   station_view->addAction(addSelectedToBookmarksAction);
+   station_view->addAction(removeSelectedFromBookmarksAction);
+ 
+-  connect(directoryRefreshAction, SIGNAL(activated()),
++  connect(directoryRefreshAction, SIGNAL(activated(int)),
+       	  this, SLOT(refreshCallList()));
+-  connect(connectionConnectToSelectedAction, SIGNAL(activated()),
++  connect(connectionConnectToSelectedAction, SIGNAL(activated(int)),
+       	  this, SLOT(connectionConnectToSelectedActionActivated()));
+-  connect(connectionConnectToIpAction, SIGNAL(activated()),
++  connect(connectionConnectToIpAction, SIGNAL(activated(int)),
+       	  this, SLOT(connectionConnectToIpActionActivated()));
+   connect(addSelectedToBookmarksAction, SIGNAL(triggered()),
+ 	  this, SLOT(addSelectedToBookmarks()));
+@@ -178,9 +178,9 @@ MainWindow::MainWindow(void)
+ 	  this, SLOT(removeSelectedFromBookmarks()));
+   connect(addNamedStationToBookmarksAction, SIGNAL(triggered()),
+ 	  this, SLOT(addNamedStationToBookmarks()));
+-  connect(settingsConfigureAction, SIGNAL(activated()),
++  connect(settingsConfigureAction, SIGNAL(activated(int)),
+       	  this, SLOT(settings()));
+-  connect(helpAboutAction, SIGNAL(activated()),
++  connect(helpAboutAction, SIGNAL(activated(int)),
+       	  this, SLOT(helpAbout()));
+ 
+   connect(station_view_selector, SIGNAL(currentItemChanged(QListWidgetItem*,
+--- a/src/qtel/MainWindowBase.ui
++++ b/src/qtel/MainWindowBase.ui
+@@ -465,7 +465,7 @@
+  <connections>
+   <connection>
+    <sender>fileQuitAction</sender>
+-   <signal>activated()</signal>
++   <signal>activated(int)</signal>
+    <receiver>MainWindowBase</receiver>
+    <slot>close()</slot>
+    <hints>
