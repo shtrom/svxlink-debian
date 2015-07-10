@@ -2,8 +2,12 @@ svxlink (14.08.1-1) UNRELEASED; urgency=medium
 
   * New upstream version
   * Pointed Vcs-Git: and Vcs-Browser at Debian packaging, not upstream
+  * Removed Build-Depends: libqt4-dev
+  * Added Build-Depends: to qtbase5-dev, qttols5-dev, qttools5-dev-tools
+  * Provided Debian patch porting package to Qt5
+  * Updated lintian-overrides
 
- -- Felix Lechner <felix.lechner@gmail.com>  Thu, 09 Jul 2015 14:14:58 -0700
+ -- Felix Lechner <felix.lechner@gmail.com>  Fri, 10 Jul 2015 02:56:04 -0700
 
 svxlink (14.08-1) unstable; urgency=low
 

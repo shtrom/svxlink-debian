@@ -1,5 +1,6 @@
 # quilt series file
 
+use-qt5.patch
 fix-spelling-errors.patch
 fix-hyphen-vs-minus-sign.patch
 fix-qtel-desktop-file.patch

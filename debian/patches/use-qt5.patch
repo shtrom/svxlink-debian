@@ -1,0 +1,148 @@
+Description: Use Qt5
+Author: Felix Lechner <felix.lechner@gmail.com>
+Forwarded: yes
+Last-Update: 2015-07-09
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/src/async/qt/CMakeLists.txt
++++ b/src/async/qt/CMakeLists.txt
+@@ -13,11 +13,11 @@ foreach(incfile ${EXPINC})
+   expinc(${incfile})
+ endforeach(incfile)
+ 
+-# Find Qt4
+-find_package(Qt4 4.2 REQUIRED QtCore QtGui QtNetwork)
+-include(${QT_USE_FILE})
+-set(LIBS ${LIBS} ${QT_LIBRARIES})
+-QT4_WRAP_CPP(QTHEADERS_MOC ${QTHEADERS})
++# Find Qt5
++find_package(Qt5 REQUIRED Core Gui Widgets Network)
++include_directories(${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Network_INCLUDE_DIRS})
++set(LIBS ${LIBS} ${Qt5Core_LIBRARIES} ${Qt5Gui_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
++qt5_wrap_cpp(QTHEADERS_MOC ${QTHEADERS})
+ 
+ # Build a shared library and a static library if configured
+ add_library(${LIBNAME} SHARED ${LIBSRC} ${QTHEADERS_MOC})
+--- a/src/qtel/CMakeLists.txt
++++ b/src/qtel/CMakeLists.txt
+@@ -23,15 +23,15 @@ find_package(GSM REQUIRED)
+ include_directories(${GSM_INCLUDE_DIR})
+ set(LIBS ${LIBS} ${GSM_LIBRARY})
+ 
+-# Find Qt4
+-find_package(Qt4 4.2 REQUIRED QtCore QtGui QtNetwork)
+-include(${QT_USE_FILE})
+-set(LIBS ${LIBS} ${QT_LIBRARIES})
++# Find Qt5
++find_package(Qt5 REQUIRED Core Gui Widgets Network LinguistTools)
++include_directories(${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Network_INCLUDE_DIRS})
++set(LIBS ${LIBS} ${Qt5Core_LIBRARIES} ${Qt5Gui_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES} )
+ 
+ # Generate targets for moc, uic and rcc
+-QT4_WRAP_CPP(QTHEADERS_MOC ${QTHEADERS})
+-QT4_WRAP_UI(FORMS_HEADERS ${FORMS})
+-QT4_ADD_RESOURCES(RESOURCES_RCC ${RESOURCES})
++qt5_wrap_cpp(QTHEADERS_MOC ${QTHEADERS})
++qt5_wrap_ui(FORMS_HEADERS ${FORMS})
++qt5_add_resources(RESOURCES_RCC ${RESOURCES})
+ 
+ # We also need to add the current build directory to the include search path
+ # to find automatically generated h-files.
+--- a/src/async/demo/CMakeLists.txt
++++ b/src/async/demo/CMakeLists.txt
+@@ -10,10 +10,10 @@ foreach(prog ${CPPPROGS})
+ endforeach(prog)
+ 
+ if(USE_QT)
+-  # Find Qt4
+-  find_package(Qt4 4.2 REQUIRED QtCore QtGui QtNetwork)
+-  include(${QT_USE_FILE})
+-  set(LIBS ${LIBS} ${QT_LIBRARIES})
++  # Find Qt5
++  find_package(Qt5 REQUIRED Core Gui Network)
++  include_directories(${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Qt5Network_INCLUDE_DIRS})
++  set(LIBS ${LIBS} ${Qt5Core_LIBRARIES} ${Qt5Gui_LIBRARIES} ${Qt5Network_LIBRARIES})
+   #QT4_WRAP_CPP(QTHEADERS_MOC ${QTHEADERS})
+ 
+   add_executable(AsyncQtApplication_demo AsyncQtApplication_demo.cpp)
+--- a/src/qtel/MainWindow.cpp
++++ b/src/qtel/MainWindow.cpp
+@@ -709,7 +709,7 @@ void MainWindow::incomingSelectionChange
+ void MainWindow::clearIncomingList(void)
+ {
+   incoming_con_view->clear();
+-  incoming_accept_button->setEnabled(FALSE);
++  incoming_accept_button->setEnabled(false);
+ } /* MainWindow::clearIncomingList */
+ 
+ 
+@@ -718,7 +718,7 @@ void MainWindow::acceptIncoming(void)
+   QList<QTreeWidgetItem*> items = incoming_con_view->selectedItems();
+   Q_ASSERT(items.size() == 1);
+   QTreeWidgetItem *item = items.at(0);
+-  incoming_accept_button->setEnabled(FALSE);
++  incoming_accept_button->setEnabled(false);
+   ComDialog *com_dialog = new ComDialog(*dir, item->text(0), item->text(1));
+   com_dialog->show();
+   com_dialog->acceptConnection();
+--- a/src/qtel/ComDialog.cpp
++++ b/src/qtel/ComDialog.cpp
+@@ -498,7 +498,7 @@ void ComDialog::createConnection(const S
+   
+   prev_src->registerSink(rem_audio_fifo);
+   
+-  connect_button->setEnabled(TRUE);
++  connect_button->setEnabled(true);
+   connect_button->setFocus();
+   
+   if (accept_connection)
+--- a/src/qtel/translations/CMakeLists.txt
++++ b/src/qtel/translations/CMakeLists.txt
+@@ -1,28 +1,28 @@
+ # Language translations
+ set(TRANSLATIONS
+-  qtel_sv.qm qtel_de.qm qtel_tr.qm qtel_nl.qm qtel_it.qm qtel_uk.qm qtel_ru.qm
+-  qtel_hu.qm qtel_ja.qm qtel_fr.qm qtel_es.qm
++  qtel_sv.ts qtel_de.ts qtel_tr.ts qtel_nl.ts qtel_it.ts qtel_uk.ts qtel_ru.ts
++  qtel_hu.ts qtel_ja.ts qtel_fr.ts qtel_es.ts
+   )
+ 
+ # The QT4_ADD_TRANSLATION macro does not seem to work on CentOS 5.
+ # We'll have to do it manually.
+-#QT4_ADD_TRANSLATION(TRANSLATIONS_QM ${TRANSLATIONS})
+-set(TRANSLATIONS_QM)
+-foreach(qm ${TRANSLATIONS})
+-  string(REGEX REPLACE ^\(.*\)\\.qm \\1 trans ${qm})
+-  list(APPEND TRANSLATIONS_QM ${trans}.qm)
+-  set(silent)
+-  add_custom_command(OUTPUT ${trans}.qm DEPENDS ${trans}.ts
+-    COMMAND ${QT_LRELEASE_EXECUTABLE}
+-              ${CMAKE_CURRENT_SOURCE_DIR}/${trans}.ts
+-              -qm ${CMAKE_CURRENT_BINARY_DIR}/${trans}.qm
+-    COMMENT "Adding translation: ${trans}..."
+-    )
+-  install(
+-    FILES ${CMAKE_CURRENT_BINARY_DIR}/${trans}.qm
+-    DESTINATION ${SHARE_INSTALL_PREFIX}/qtel/translations
+-    )
+-endforeach(qm)
++qt5_add_translation(TRANSLATIONS_QM ${TRANSLATIONS})
++#set(TRANSLATIONS_QM)
++#foreach(qm ${TRANSLATIONS})
++#  string(REGEX REPLACE ^\(.*\)\\.qm \\1 trans ${qm})
++#  list(APPEND TRANSLATIONS_QM ${trans}.qm)
++#  set(silent)
++#  add_custom_command(OUTPUT ${trans}.qm DEPENDS ${trans}.ts
++#    COMMAND ${QT_LRELEASE_EXECUTABLE}
++#              ${CMAKE_CURRENT_SOURCE_DIR}/${trans}.ts
++#              -qm ${CMAKE_CURRENT_BINARY_DIR}/${trans}.qm
++#    COMMENT "Adding translation: ${trans}..."
++#    )
++#  install(
++#    FILES ${CMAKE_CURRENT_BINARY_DIR}/${trans}.qm
++#    DESTINATION ${SHARE_INSTALL_PREFIX}/qtel/translations
++#    )
++#endforeach(qm)
+ 
+ add_custom_target(translations ALL DEPENDS ${TRANSLATIONS_QM})
+ 

@@ -2,10 +2,12 @@ Source: svxlink
 Section: hamradio
 Priority: optional
 Maintainer: Felix Lechner <felix.lechner@gmail.com>
-Build-Depends: debhelper (>= 9), quilt, cmake, doxygen,
+Build-Depends: debhelper (>= 9), quilt, cmake,
  libsigc++-2.0-dev (>= 2.2.10-0.2), libpopt-dev, libgcrypt20-dev,
  libgsm1-dev, libspeex-dev, libopus-dev, libasound2-dev,
- libqt4-dev, tcl-dev, tk-dev
+ qtbase5-dev, qttools5-dev, qttools5-dev-tools,
+ tcl-dev, tk-dev,
+ doxygen
 Standards-Version: 3.9.6
 Homepage: http://www.svxlink.org
 Vcs-Browser: https://github.com/lechner/svxlink
