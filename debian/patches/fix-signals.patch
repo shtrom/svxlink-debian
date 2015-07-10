@@ -5,28 +5,36 @@
    station_view->addAction(removeSelectedFromBookmarksAction);
  
 -  connect(directoryRefreshAction, SIGNAL(activated()),
-+  connect(directoryRefreshAction, SIGNAL(activated(int)),
++  connect(directoryRefreshAction, SIGNAL(triggered()),
        	  this, SLOT(refreshCallList()));
 -  connect(connectionConnectToSelectedAction, SIGNAL(activated()),
-+  connect(connectionConnectToSelectedAction, SIGNAL(activated(int)),
++  connect(connectionConnectToSelectedAction, SIGNAL(triggered()),
        	  this, SLOT(connectionConnectToSelectedActionActivated()));
 -  connect(connectionConnectToIpAction, SIGNAL(activated()),
-+  connect(connectionConnectToIpAction, SIGNAL(activated(int)),
++  connect(connectionConnectToIpAction, SIGNAL(triggered()),
        	  this, SLOT(connectionConnectToIpActionActivated()));
    connect(addSelectedToBookmarksAction, SIGNAL(triggered()),
  	  this, SLOT(addSelectedToBookmarks()));
-@@ -178,9 +178,9 @@ MainWindow::MainWindow(void)
+@@ -178,16 +178,16 @@ MainWindow::MainWindow(void)
  	  this, SLOT(removeSelectedFromBookmarks()));
    connect(addNamedStationToBookmarksAction, SIGNAL(triggered()),
  	  this, SLOT(addNamedStationToBookmarks()));
 -  connect(settingsConfigureAction, SIGNAL(activated()),
-+  connect(settingsConfigureAction, SIGNAL(activated(int)),
++  connect(settingsConfigureAction, SIGNAL(triggered()),
        	  this, SLOT(settings()));
 -  connect(helpAboutAction, SIGNAL(activated()),
-+  connect(helpAboutAction, SIGNAL(activated(int)),
++  connect(helpAboutAction, SIGNAL(triggered()),
        	  this, SLOT(helpAbout()));
  
    connect(station_view_selector, SIGNAL(currentItemChanged(QListWidgetItem*,
+ 						           QListWidgetItem*)),
+ 	  this, SLOT(stationViewSelectorCurrentItemChanged(QListWidgetItem*,
+ 						           QListWidgetItem*)));
+-  connect(station_view, SIGNAL(activated(const QModelIndex&)),
++  connect(station_view, SIGNAL(triggered(const QModelIndex&)),
+ 	  this, SLOT(stationViewDoubleClicked(const QModelIndex&)));
+   connect(incoming_con_view, SIGNAL(itemSelectionChanged()),
+       	  this, SLOT(incomingSelectionChanged()));
 --- a/src/qtel/MainWindowBase.ui
 +++ b/src/qtel/MainWindowBase.ui
 @@ -465,7 +465,7 @@
@@ -34,7 +42,7 @@
    <connection>
     <sender>fileQuitAction</sender>
 -   <signal>activated()</signal>
-+   <signal>activated(int)</signal>
++   <signal>triggered()</signal>
     <receiver>MainWindowBase</receiver>
     <slot>close()</slot>
     <hints>
